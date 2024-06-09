@@ -1,0 +1,5 @@
+C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\BrutseyCollins\bin\Release\BrutseyCollins.dll
+C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\BrutseyCollins\bin\Release\BrutseyCollins.pdb
+C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\BrutseyCollins\obj\Release\BrutseyCollins.csproj.CoreCompileInputs.cache
+C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\BrutseyCollins\obj\Release\BrutseyCollins.dll
+C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\BrutseyCollins\obj\Release\BrutseyCollins.pdb

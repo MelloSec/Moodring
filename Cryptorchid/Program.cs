@@ -20,7 +20,7 @@ namespace Cryptorchid
                 string inputIPAddress = args.FirstOrDefault(arg => !arg.StartsWith("-"));
                 if (string.IsNullOrEmpty(inputIPAddress))
                 {
-                    Console.WriteLine("Usage: brutesyCollins.exe <IPAddress> | -NoDNS");
+                    Console.WriteLine("Usage: Cryptorchid.exe <IPAddress> | -NoDNS");
                     return;
                 }
                 DNSCheck.CheckDNSAndContinue(inputIPAddress);
@@ -126,7 +126,7 @@ namespace Cryptorchid
 
                 if (string.IsNullOrEmpty(inputFilePath) || string.IsNullOrEmpty(key))
                 {
-                    Console.WriteLine("Usage: brutesyCollins.exe -encrypt <inputFilePath> <key>");
+                    Console.WriteLine("Usage: Cryptorchid.exe -encrypt <inputFilePath> <key>");
                     return;
                 }
 

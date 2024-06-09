@@ -7,6 +7,7 @@ using System.Management;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 public class Virtualization
