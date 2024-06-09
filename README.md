@@ -23,4 +23,4 @@ Sideloading DLL, bruteforces the payloads decryption and loads target into memor
 TODO: Have this an encyrpoted value we can pull as well from another image, get rid of the text file.
 
 ### Taskmasker 
-Persister DLL, checks users permissions and creates a user task, fetching a remote payload to an AppData directory. If admin, two tasks are created, one to run as SYSTEM. 
+Persister DLL, checks users permissions and creates a task, fetching a remote payload to an AppData directory. If admin, two tasks are created, one to run as SYSTEM. 
