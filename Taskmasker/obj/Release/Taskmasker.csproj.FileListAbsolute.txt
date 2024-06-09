@@ -8,3 +8,9 @@ C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\T
 C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Taskmasker\obj\Release\Taskmasker.pdb
 C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Taskmasker\bin\Release\System.Diagnostics.DiagnosticSource.xml
 C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Taskmasker\obj\Release\Taskmasker.csproj.Fody.CopyLocal.cache
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Taskmasker\bin\Release\Taskmasker.dll.config
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Taskmasker\bin\Release\System.Buffers.xml
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Taskmasker\bin\Release\System.Memory.xml
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Taskmasker\bin\Release\System.Numerics.Vectors.xml
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Taskmasker\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Taskmasker\obj\Release\Taskmasker.csproj.Fody.RuntimeCopyLocal.cache
