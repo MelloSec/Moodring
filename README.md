@@ -5,15 +5,21 @@ PoC reflective DLL loader with encryption, steg and env checks. Decryption key i
 Command line Encrypt/Decrypt tool, can test if the hash can be retrieved and payload decrypted successfully prior to putting it in the pipeline
 
 ```powershell
-# Skip DNS check, use steganography, and encrypt the dll using AAAA and steg the hash into nogo.png, to created nogo_copy.png
+# Skip DNS check, use steganography, and encrypt the dll using AAAA and steg the hash into logo.png, to create logo_copy.png with the hash embeded in least signifcant bit
  .\Cryptorchid.exe -nodns -steg AAAA .\calc.dll .\Logo.png
 
-# Check DNS match for google and check for Sandbox VMs, looks for encyrpted 'mod.txt' and nogo_copy.png in the current dir, bruteforce to decrypt and load
+# Check DNS match for google and check for Sandbox VMs, looks for encyrpted 'mod.txt' and png in the current dir, bruteforce to decrypt and load
 # This is to test the sideloading dll, change these values in Decryptorchid source under Program.Main().
  .\Cryptorchid.exe 8.8.8.8 -antivm -stegload .\Logo_copy.png "Calc.Modes.RunCalc.Execute"
 
  # Pull hash from steg image and decrypt output to view (meant for text/test, will print the contents of dlls)
- .\Cryptorchid.exe -nodns -desteg  .\nogo_copy.png
+ .\Cryptorchid.exe -nodns -desteg  .\Logo_copy.png
+
+ # Get hash of UPN for OST file matching
+ .\Cryptorchid.exe -nodNS -hash manager@corpomax.com
+
+ # Store hash of UPN in bit
+  .\Cryptorchid.exe -nodNS -hideupn balls@krebsonsecurity.com .\NOGO.png
 ```
 
 ### Decryptorchid - Decrypts payload from encrypted text file using hash stored in image

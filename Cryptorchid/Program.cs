@@ -54,7 +54,64 @@ namespace Cryptorchid
                 return; // Exit after loading and invoking
             }
 
+            // UPN args
+            if (args.Contains("-listaccounts", StringComparer.OrdinalIgnoreCase))
+            {
+                /*UPN.DisplayUPNAndHash();*/
+                UPN.ListOutlookAccounts();
+                return; // Exit after displaying UPN and hash
+            }
+            if (args.Contains("-hash", StringComparer.OrdinalIgnoreCase))
+            {
+                int hashIndex = Array.IndexOf(args, "-hash");
+                if (hashIndex >= 0 && hashIndex < args.Length - 1)
+                {
+                    string input = args[hashIndex + 1];
+                    UPN.HashUPN(input);
+                }
+                else
+                {
+                    Console.WriteLine("Please provide a string to hash after the -hash argument.");
+                }
+                return;
+            }
 
+            if (args.Contains("-hideupn", StringComparer.OrdinalIgnoreCase))
+            {
+                int hideIndex = Array.IndexOf(args, "-hideupn");
+                if (hideIndex >= 0 && hideIndex < args.Length - 2)
+                {
+                    string upn = args[hideIndex + 1];
+                    string imageFilePath = args[hideIndex + 2];
+                    string hashedValue = SteganographyHelper.GetSha256Hash(upn);
+                    SteganographyHelper.HideUPNInImage(imageFilePath, upn);
+                    Console.WriteLine($"UPN: {upn} has been hidden in {imageFilePath}");
+                    Console.WriteLine($"Hashed Value: {hashedValue}");
+                }
+                else
+                {
+                    Console.WriteLine("Please provide a UPN and image file path after the -hideupn argument.");
+                }
+                return;
+            }
+
+            if (args.Contains("-getupn", StringComparer.OrdinalIgnoreCase))
+            {
+                int getIndex = Array.IndexOf(args, "-getupn");
+                if (getIndex >= 0 && getIndex < args.Length - 1)
+                {
+                    string imageFilePath = args[getIndex + 1];
+                    string retrievedHash = SteganographyHelper.RetrieveUPNFromImage(imageFilePath);
+                    Console.WriteLine($"Retrieved Hash: {retrievedHash}");
+                }
+                else
+                {
+                    Console.WriteLine("Please provide an image file path after the -getupn argument.");
+                }
+                return;
+            }
+
+            // steg args
             if (args.Contains("-steg", StringComparer.OrdinalIgnoreCase))
             {
                 string key = args.SkipWhile(arg => !arg.Equals("-steg", StringComparison.OrdinalIgnoreCase)).Skip(1).FirstOrDefault();
