@@ -50,6 +50,7 @@
     <Compile Include="Load.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steg.cs" />
+    <Compile Include="UPN.cs" />
     <Compile Include="VM.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

