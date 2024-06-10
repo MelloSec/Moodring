@@ -19,7 +19,19 @@ Command line Encrypt/Decrypt tool, can test if the hash can be retrieved and pay
  .\Cryptorchid.exe -nodNS -hash manager@corpomax.com
 
  # Store hash of UPN in bit
-  .\Cryptorchid.exe -nodNS -hideupn balls@krebsonsecurity.com .\NOGO.png
+.\Cryptorchid.exe -nodNS -hideupn balls@krebsonsecurity.com .\NOGO.png
+
+# retrieve the hash from the image
+.\Cryptorchid.exe -nodNS -getupn .\NOGO_copy.png
+
+# List OST Files found on disk for matching on UPNs
+.\Cryptorchid.exe -nodNS -listaccounts 
+
+# Encrypt using UPN Hash so we can decrypt later based on OST files found on system
+.\Cryptorchid.exe -noDNs -encryptupn email@domain.com .\logo.png
+
+# Decrypt and invoke method, matching on UPN Hash, pull it from image and check if any OST files found in AppData match
+.\Cryptorchid.exe -noDNs -decryptupn .\logo_copy.png Calc.Modes.RunCalc.Execute
 ```
 
 ### Decryptorchid - Decrypts payload from encrypted text file using hash stored in image

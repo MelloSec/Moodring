@@ -1,0 +1,5 @@
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Moodring\bin\Release\Moodring.dll
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Moodring\bin\Release\Moodring.pdb
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Moodring\obj\Release\Moodring.csproj.CoreCompileInputs.cache
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Moodring\obj\Release\Moodring.dll
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Moodring\obj\Release\Moodring.pdb

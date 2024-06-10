@@ -110,6 +110,41 @@ namespace Cryptorchid
                 }
                 return;
             }
+            if (args.Contains("-encryptupn", StringComparer.OrdinalIgnoreCase))
+            {
+                int encryptIndex = Array.IndexOf(args, "-encryptupn");
+                if (encryptIndex >= 0 && encryptIndex < args.Length - 3)
+                {
+                    string upn = args[encryptIndex + 1];
+                    string inputFilePath = args[encryptIndex + 2];
+                    string imageFilePath = args[encryptIndex + 3];
+                    string newImageFilePath = Path.Combine(Path.GetDirectoryName(imageFilePath), Path.GetFileNameWithoutExtension(imageFilePath) + "_copy" + Path.GetExtension(imageFilePath));
+
+                    SteganographyHelper.UPNEncrypt(inputFilePath, newImageFilePath, upn);
+                    Console.WriteLine($"UPN: {upn} has been encrypted and hidden in {newImageFilePath}");
+                }
+                else
+                {
+                    Console.WriteLine("Please provide a UPN, input file path, and image file path after the -encryptupn argument.");
+                }
+                return;
+            }
+
+            if (args.Contains("-decryptupn", StringComparer.OrdinalIgnoreCase))
+            {
+                int decryptIndex = Array.IndexOf(args, "-decryptupn");
+                if (decryptIndex >= 0 && decryptIndex < args.Length - 2)
+                {
+                    string imageFilePath = args[decryptIndex + 1];
+                    string methodSignature = args[decryptIndex + 2];
+                    SteganographyHelper.UPNDecrypt(imageFilePath, methodSignature);
+                }
+                else
+                {
+                    Console.WriteLine("Please provide an image file path and method signature after the -decryptupn argument.");
+                }
+                return;
+            }
 
             // steg args
             if (args.Contains("-steg", StringComparer.OrdinalIgnoreCase))
