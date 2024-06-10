@@ -4,14 +4,14 @@ param(
 
 $projectPaths = @(
     ".\Cryptorchid",
-    ".\BrutseyCollins",
-    ".\Taskmasker"
+    ".\Taskmasker",
+    ".\Decryptorchid"
 )
 
 $sourcePaths = @(
     ".\Cryptorchid\bin\Release\Cryptorchid.exe",
-    ".\BrutseyCollins\bin\Release\BrutseyCollins.dll",
-    ".\Taskmasker\bin\Release\Taskmasker.dll"
+    ".\Taskmasker\bin\Release\Taskmasker.dll",
+    ".\Decryptorchid\bin\Release\Decryptorchid.dll"
 )
 $destinationPath = ".\Package"
 

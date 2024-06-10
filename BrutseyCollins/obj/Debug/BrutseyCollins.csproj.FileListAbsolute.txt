@@ -1,6 +1,0 @@
-C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\BrutseyCollins\obj\Debug\BrutseyCollins.csproj.AssemblyReference.cache
-C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\BrutseyCollins\obj\Debug\BrutseyCollins.csproj.CoreCompileInputs.cache
-C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\BrutseyCollins\bin\Debug\BrutseyCollins.dll
-C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\BrutseyCollins\bin\Debug\BrutseyCollins.pdb
-C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\BrutseyCollins\obj\Debug\BrutseyCollins.dll
-C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\BrutseyCollins\obj\Debug\BrutseyCollins.pdb
