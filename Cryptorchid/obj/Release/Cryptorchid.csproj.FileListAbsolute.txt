@@ -12,3 +12,8 @@ C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\Cryptorchi
 C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\Cryptorchid\obj\Release\Cryptorchid.csproj.CoreCompileInputs.cache
 C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\Cryptorchid\obj\Release\Cryptorchid.exe
 C:\Users\RleeA\vsworksapce\Code\GitHubProjects\2023\Mellosec\Moodring\Cryptorchid\obj\Release\Cryptorchid.pdb
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Cryptorchid\bin\Release\Newtonsoft.Json.xml
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Cryptorchid\bin\Release\System.Diagnostics.DiagnosticSource.xml
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Cryptorchid\obj\Release\Cryptorchid.exe.config
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Cryptorchid\obj\Release\Cryptorchid.csproj.Fody.CopyLocal.cache
+C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Cryptorchid\obj\Release\Cryptorchid.csproj.CopyComplete
