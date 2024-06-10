@@ -1,6 +1,0 @@
-C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Decryptorchid\obj\Debug\Decryptorchid.csproj.AssemblyReference.cache
-C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Decryptorchid\obj\Debug\Decryptorchid.csproj.CoreCompileInputs.cache
-C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Decryptorchid\bin\Debug\Decryptorchid.dll
-C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Decryptorchid\bin\Debug\Decryptorchid.pdb
-C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Decryptorchid\obj\Debug\Decryptorchid.dll
-C:\Users\RleeA\OneDrive\vsWorkspace\Code\GitHubProjects\2023\Mellosec\Moodring\Decryptorchid\obj\Debug\Decryptorchid.pdb

