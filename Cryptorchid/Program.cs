@@ -9,7 +9,6 @@ namespace Cryptorchid
 {
     public class Program
     {
-
         public static void Main(string[] args)
         {
             bool noDNS = args.Contains("-NoDNS", StringComparer.OrdinalIgnoreCase);
